@@ -32,6 +32,20 @@ RSpec.describe Card do
     expect(default_card.force).to eql(0)
   end
 
+  describe "#cost" do
+    it "defaults to the max of resources, force, power" do
+      card = Card.new(faction: :rebel, power: 3, force: 2, resource: 1)
+
+      expect(card.cost).to eql(3)
+    end
+
+    it "uses the cost if it is set" do
+      card = Card.new(faction: :rebel, power: 3, force: 2, resource: 1, cost: 4)
+
+      expect(card.cost).to eql(4)
+    end
+  end
+
   describe "#rebel?" do
     it "returns true when the faction is rebel" do
       card = Card.new(faction: :rebel)

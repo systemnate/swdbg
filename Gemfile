@@ -4,3 +4,5 @@ source "https://rubygems.org"
 
 gem "rspec"
 gem "debug"
+gem "dry-initializer"
+gem "dry-types"

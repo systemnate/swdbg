@@ -1,35 +1,70 @@
+require "dry-initializer"
+require "dry-types"
 require_relative "factionable"
+require_relative "types"
 
 class Card
   include Factionable
+  extend Dry::Initializer
 
-  attr_accessor :name, :faction, :power, :resources, :force, :special_used, :consumed
+  option :name, Types::String, default: proc { "card" }
+  option :faction, Types::Symbol, default: proc { :neutral }
+  option :power, Types::Integer, default: proc { 0 }
+  option :resources, Types::Integer, default: proc { 0 }
+  option :force, Types::Integer, default: proc { 0 }
+  option :cost, Types::Integer, default: proc { 0 }
+  option :reward, Types::Hash, default: proc { {} }
+  option :consumed, Types::Bool, default: proc { false }
+  option :special_block, Types::Callable.optional, default: proc { nil }
 
-  def initialize(name: "card", faction: :neutral, power: 0, resources: 0, force: 0, &special_block)
-    @name = name
-    @faction = faction
-    @power = power
-    @resources = resources
-    @force = force
+  attr_accessor :power, :force, :resources, :special_used
+
+  def initialize(*args, **kwargs, &block)
+    super(*args, **kwargs)
+    @special_block = block if block
     @special_used = false
-    @special_block = special_block
-    @consumed = consumed
   end
 
   def self.luke
-    new(name: "Luke Skywalker", faction: :rebel, power: 6, force: 3)
+    new(
+      name: "Luke Skywalker",
+      faction: :rebel,
+      power: 6, force: 3,
+      cost: 8,
+      reward: { resources: 3, force: 3 }
+    )
   end
 
   def self.vader
-    new(name: "Darth Vader", faction: :empire, power: 8, force: 3)
+    new(
+      name: "Darth Vader",
+      faction: :empire,
+      power: 8,
+      force: 3,
+      cost: 8,
+      reward: { resources: 3, force: 3 }
+    )
   end
 
   def self.grand_moff
-    new(name: "Grand Moff Tarken", faction: :empire, power: 2, force: 2, resources: 2)
+    new(
+      name: "Grand Moff Tarken",
+      faction: :empire,
+      power: 2,
+      force: 2,
+      resources: 2,
+      reward: { resources: 3, force: 2 }
+    )
   end
 
   def self.han_solo
-    new(name: "Han Solo", faction: :rebel, power: 4, force: 0, resources: 3)
+    new(
+      name: "Han Solo",
+      faction: :rebel,
+      power: 4,
+      force: 0,
+      resources: 3
+    )
   end
 
   def self.rebel_trooper
@@ -45,7 +80,7 @@ class Card
   end
 
   def self.imperial_shuttle
-    new(faction: :empire, name: "Emperial Shuttle", resources: 1)
+    new(faction: :empire, name: "Imperial Shuttle", resources: 1)
   end
 
   def self.temple_guardian
@@ -72,6 +107,12 @@ class Card
         c.power += 1
       end
     end
+  end
+
+  def cost
+    return @cost if @cost > 0
+
+    [power, force, resources].max
   end
 
   def special(option)
