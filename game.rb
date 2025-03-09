@@ -7,11 +7,12 @@ require_relative "planet"
 
 class Game
   attr_reader :deck, :galaxy_row, :player
-  attr_accessor :players
+  attr_accessor :players, :outer_rim_pilots
 
   def initialize
     @players = [Player.new(faction: :empire), Player.new(faction: :rebel)].cycle
     @planets = { rebel: rebel_planets, empire: empire_planets }
+    @outer_rim_pilots = Array.new(10) { Card.outer_rim_pilot }
 
     @deck = Deck.new
     @deck.shuffle!

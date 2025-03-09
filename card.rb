@@ -83,6 +83,10 @@ class Card
     new(faction: :empire, name: "Imperial Shuttle", resources: 1)
   end
 
+  def self.outer_rim_pilot
+    new(faction: :neutral, name: "Outer Rim Pilot", resources: 2)
+  end
+
   def self.temple_guardian
     new(faction: :rebel, name: "Temple Guardian") do |c, powerup|
       case powerup
