@@ -1,10 +1,13 @@
 # frozen_string_literal: true
+
+require "debug"
 require_relative "deck"
 require_relative "player"
 require_relative "planet"
 
 class Game
-  attr_reader :deck, :galaxy_row, :players, :player
+  attr_reader :deck, :galaxy_row, :player
+  attr_accessor :players
 
   def initialize
     @players = [Player.new(faction: :empire), Player.new(faction: :rebel)].cycle
@@ -30,6 +33,12 @@ class Game
 
   def start_hand
     player.start_hand
+  end
+
+  def end_hand
+    player.reset_consumption
+
+    @current_player = @players.next
   end
 
   def hand

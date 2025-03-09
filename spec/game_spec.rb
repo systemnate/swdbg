@@ -54,14 +54,44 @@ RSpec.describe Game do
 
   describe "#start_hand" do
     it "deals 5 cards to the current player" do
-      game = Game.new
       game.start_hand
 
       expect(game.hand.size).to eql(5)
     end
   end
 
-  describe "#play" do
+  describe "#end_hand" do
     let(:game) { Game.new }
+
+    it "switches the player" do
+      game.start_hand
+      expect(game.player).to be_a_empire
+
+      game.end_hand
+      expect(game.player).to be_a_rebel
+
+      game.start_hand
+      game.end_hand
+      expect(game.player).to be_a_empire
+
+      game.start_hand
+      game.end_hand
+      expect(game.player).to be_a_rebel
+    end
+
+    it "resets the card consumption" do
+      game = Game.new
+      game.start_hand
+      game.player.consume_all # TODO: prevent card with action from being consumed
+
+      expect(game.hand.all? { |c| c.consumed? }).to be_truthy
+
+      game.end_hand
+      game.start_hand
+      game.end_hand
+
+      # rebel's turn again, they should be useable again
+      expect(game.hand.all? { |c| c.consumed? }).to be_falsey
+    end
   end
 end

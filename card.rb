@@ -92,4 +92,8 @@ class Card
   def consumed?
     @consumed
   end
+
+  def restore
+    @consumed = false
+  end
 end

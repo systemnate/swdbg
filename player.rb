@@ -60,6 +60,10 @@ class Player
     end
   end
 
+  def reset_consumption
+    hand.each(&:restore)
+  end
+
   def abilities
     {
       force:,
