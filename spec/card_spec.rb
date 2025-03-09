@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-
+#
+require "debug"
 require_relative "spec_helper"
 require_relative "../card"
 
@@ -34,15 +35,63 @@ RSpec.describe Card do
 
   describe "#cost" do
     it "defaults to the max of resources, force, power" do
-      card = Card.new(faction: :rebel, power: 3, force: 2, resource: 1)
+      card = Card.new(faction: :rebel, power: 3, force: 2, resources: 1)
 
       expect(card.cost).to eql(3)
     end
 
     it "uses the cost if it is set" do
-      card = Card.new(faction: :rebel, power: 3, force: 2, resource: 1, cost: 4)
+      card = Card.new(faction: :rebel, power: 3, force: 2, resources: 1, cost: 4)
 
       expect(card.cost).to eql(4)
+    end
+  end
+
+  describe "#reward" do
+    describe "when power is an ability" do
+      it "defaults to giving resource equal to power" do
+        card = Card.new(faction: :rebel, power: 3, force: 0, resources: 0)
+
+        expect(card.reward).to eql({
+          resources: 3,
+          power: 0,
+          force: 0
+        })
+      end
+    end
+
+    describe "when resources is an ability" do
+      it "defaults to giving resources equal to resources" do
+        card = Card.new(faction: :rebel, power: 0, force: 0, resources: 2)
+
+        expect(card.reward).to eql({
+          resources: 2,
+          power: 0,
+          force: 0
+        })
+      end
+    end
+
+    describe "when force is an ability" do
+      it "defaults to giving 2 force" do
+        card = Card.new(faction: :rebel, power: 0, force: 3, resources: 0)
+
+        expect(card.reward).to eql({
+          resources: 0,
+          power: 0,
+          force: 2
+        })
+      end
+    end
+
+    it "defaults to the  when resource is >= 2" do
+      card = Card.new(faction: :rebel, power: 0, force: 0, resources: 2)
+
+      expect(card.reward).to eql({
+        resources: 2,
+        power: 0,
+        force: 0
+      })
     end
   end
 

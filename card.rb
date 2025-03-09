@@ -17,7 +17,7 @@ class Card
   option :consumed, Types::Bool, default: proc { false }
   option :special_block, Types::Callable.optional, default: proc { nil }
 
-  attr_accessor :power, :force, :resources, :special_used
+  attr_accessor :power, :force, :resources, :special_used, :reward
 
   def initialize(*args, **kwargs, &block)
     super(*args, **kwargs)
@@ -113,6 +113,18 @@ class Card
     return @cost if @cost > 0
 
     [power, force, resources].max
+  end
+
+  def reward
+    return @reward unless @reward.empty?
+
+    if power > 0
+      @reward = { resources: power, power: 0, force: 0 }
+    elsif resources >= 2
+      @reward = { resources: resources, power: 0, force: 0 }
+    else
+      @reward = { resources: 0, power: 0, force: 2 }
+    end
   end
 
   def special(option)
