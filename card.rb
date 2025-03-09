@@ -96,4 +96,20 @@ class Card
   def restore
     @consumed = false
   end
+
+  def inspect
+    result = { name:, faction: }
+
+    abilities = {
+      force:,
+      power:,
+      resources:
+    }.sort_by { |_, value| -value }.to_h
+
+    result.merge(abilities).merge(special: !@special_block.nil?)
+  end
+
+  def to_s
+    inspect
+  end
 end
