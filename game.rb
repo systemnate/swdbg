@@ -65,26 +65,21 @@ class Game
 
   def buy(index)
     card = galaxy_row[index]
+    return false unless can_buy?(card)
 
-    if card.faction == player.faction || card.faction == :neutral
-      if player.resources >= card.cost
-        player.resources -= card.cost
-        purchased_card = galaxy_row.remove_card(index)
-
-        player.add_to_discard_pile(purchased_card)
-
-        galaxy_row.refill
-
-        return true
-      else
-        return false
-      end
-    else
-      return false
-    end
+    player.resources -= card.cost
+    purchased_card = galaxy_row.remove_card(index)
+    player.add_to_discard_pile(purchased_card)
+    galaxy_row.refill
+    true
   end
 
   private
+
+  def can_buy?(card)
+    (card.faction == player.faction || card.faction == :neutral) &&
+      player.resources >= card.cost
+  end
 
   def fill_galaxy_row
     @galaxy_row = GalaxyRow.new
