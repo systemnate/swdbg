@@ -88,6 +88,10 @@ class Player
     [row, faction_string, stats, row, cards_string, cards, row].flatten.join("\n")
   end
 
+  def add_to_discard_pile(card)
+    @discard_pile << card
+  end
+
   private
 
   def create_starting_deck

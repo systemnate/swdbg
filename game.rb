@@ -10,12 +10,12 @@ class Game
   attr_reader :deck, :galaxy_row, :player
   attr_accessor :players, :outer_rim_pilots
 
-  def initialize
+  def initialize(deck: Deck.new)
     @players = [Player.new(faction: :empire), Player.new(faction: :rebel)].cycle
     @planets = { rebel: rebel_planets, empire: empire_planets }
     @outer_rim_pilots = Array.new(10) { Card.outer_rim_pilot }
 
-    @deck = Deck.new
+    @deck = deck
     @deck.shuffle!
     @galaxy_row = GalaxyRow.new(@deck)
     @current_player = @players.next
@@ -61,6 +61,27 @@ class Game
       Planet.new(faction: :empire, name: "Corellia", power: 14),
       Planet.new(faction: :empire, name: "Death Star", power: 16)
     ]
+  end
+
+  def buy(index)
+    card = galaxy_row[index]
+
+    if card.faction == player.faction || card.faction == :neutral
+      if player.resources >= card.cost
+        player.resources -= card.cost
+        purchased_card = galaxy_row.remove_card(index)
+
+        player.add_to_discard_pile(purchased_card)
+
+        galaxy_row.refill
+
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
   end
 
   private

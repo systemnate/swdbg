@@ -4,7 +4,8 @@ require "debug"
 require "awesome_print"
 
 class GalaxyRow
-  attr_reader :deck, :cards
+  attr_reader :deck
+  attr_accessor :cards
 
   def initialize(deck)
     @deck = deck
@@ -22,6 +23,10 @@ class GalaxyRow
     end
 
     self
+  end
+
+  def remove_card(index)
+    @cards.delete_at(index)
   end
 
   def size

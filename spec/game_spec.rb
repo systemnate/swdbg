@@ -94,4 +94,23 @@ RSpec.describe Game do
       expect(game.hand.all? { |c| c.consumed? }).to be_falsey
     end
   end
+
+  describe "#buy" do
+    it "allows the player to buy something from the galaxy row" do
+      deck = Deck.new
+      cards = []
+      20.times { cards << Card.new(cost: 1, resources: 1, faction: :empire) }
+      allow(deck).to receive(:cards).and_return(cards)
+
+      game = Game.new(deck: deck)
+      game.start_hand
+      game.player.consume_all
+
+      initial_resources = game.player.resources
+
+      game.buy(0)
+
+      expect(game.player.resources).to eql(initial_resources - 1)
+    end
+  end
 end

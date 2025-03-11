@@ -186,4 +186,16 @@ RSpec.describe Player do
       })
     end
   end
+
+  describe "#add_to_discard_pile" do
+    let(:player) { Player.new(faction: :rebel) }
+
+    it "lets you add a card to the discard pile" do
+      expect(player.discard_pile.size).to eql(0)
+
+      player.add_to_discard_pile(Card.new)
+
+      expect(player.discard_pile.size).to eql(1)
+    end
+  end
 end

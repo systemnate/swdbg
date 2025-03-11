@@ -20,9 +20,20 @@ RSpec.describe GalaxyRow do
     end
   end
 
-  it "allows you to index into the card" do
-    subject.refill
+  describe "[]" do
+    it "allows you to index into the card" do
+      subject.refill
 
-    expect(subject[0]).to be_a(Card)
+      expect(subject[0]).to be_a(Card)
+    end
+  end
+
+  describe "#remove_card" do
+    it "removes the card from the galaxy row and returns it" do
+      card = subject.remove_card(0)
+
+      expect(card).to be_a(Card)
+      expect(subject.size).to eql(5)
+    end
   end
 end
