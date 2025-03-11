@@ -6,6 +6,7 @@ class Deck
     add_rebel_cards
     add_empire_cards
     add_neutral_cards
+    shuffle!
   end
 
   def size

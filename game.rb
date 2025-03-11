@@ -4,6 +4,7 @@ require "debug"
 require_relative "deck"
 require_relative "player"
 require_relative "planet"
+require_relative "galaxy_row"
 
 class Game
   attr_reader :deck, :galaxy_row, :player
@@ -16,7 +17,7 @@ class Game
 
     @deck = Deck.new
     @deck.shuffle!
-    @galaxy_row = fill_galaxy_row
+    @galaxy_row = GalaxyRow.new(@deck)
     @current_player = @players.next
   end
 
@@ -65,13 +66,8 @@ class Game
   private
 
   def fill_galaxy_row
-    @galaxy_row = []
-
-    6.times do
-      @galaxy_row << @deck.draw
-    end
-
+    @galaxy_row = GalaxyRow.new
+    @galaxy_row.refill
     @galaxy_row
   end
-
 end

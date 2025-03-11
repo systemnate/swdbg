@@ -1,7 +1,12 @@
 # frozen_string_literal: true
+
+require "debug"
 require_relative "card"
+require_relative "cardable"
 
 class Player
+  include Cardable
+
   attr_reader :faction, :deck, :hand, :discard_pile
   attr_accessor :power, :force, :resources
 
@@ -70,6 +75,17 @@ class Player
       power:,
       resources:
     }
+  end
+
+  def inspect
+    stats = "force:#{force}|resources:#{resources}|power:#{power}"
+    row = "-" * 75
+    faction_string = faction.to_s.center(75, "-")
+    cards_string = "cards".center(75, "-")
+    cards = hand.map.with_index do |c, i|
+      card_str(c, i).ljust(72, "-")
+    end
+    [row, faction_string, stats, row, cards_string, cards, row].flatten.join("\n")
   end
 
   private

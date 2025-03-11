@@ -6,3 +6,4 @@ gem "rspec"
 gem "debug"
 gem "dry-initializer"
 gem "dry-types"
+gem "awesome_print", require: true
