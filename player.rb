@@ -1,16 +1,24 @@
 # frozen_string_literal: true
 
 require "debug"
+require "dry-initializer"
+require "dry-types"
+require_relative "types"
 require_relative "card"
 require_relative "cardable"
+require_relative "factionable"
 
 class Player
   include Cardable
+  extend Dry::Initializer
 
-  attr_reader :faction, :deck, :hand, :discard_pile
+  option :faction, Types::PlayerFactionType
+
+  attr_reader :deck, :hand, :discard_pile
   attr_accessor :power, :force, :resources
 
-  def initialize(faction:)
+  def initialize(*args, **kwargs, &block)
+    super(*args, **kwargs)
     @faction = faction
     @discard_pile = []
     @deck = create_starting_deck
