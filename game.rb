@@ -79,7 +79,7 @@ class Game
       player.power -= amount_to_attack
       current_planet.power -= amount_to_attack
 
-      return true if current_planet.defeated?
+      return true
     end
     false
   end

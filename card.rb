@@ -153,6 +153,7 @@ class Card
 
   def restore
     @consumed = false
+    @special_used = false
   end
 
   def inspect
