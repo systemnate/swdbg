@@ -153,6 +153,16 @@ class Card
 
   def restore
     @consumed = false
+    # won't work for other special abilities
+    # but works for inquistor and temple guardian
+    # need to re-think how to reset cards with
+    # special abilities back to their original
+    # state
+    if @special_used
+      @power = 0
+      @resources = 0
+      @force = 0
+    end
     @special_used = false
   end
 

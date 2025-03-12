@@ -193,5 +193,15 @@ RSpec.describe Card do
         card.special(:force)
       end.to raise_error "special power already used"
     end
+
+    it "resets after it is restored" do
+      card = Card.inquisitor
+      card.special(:force)
+      card.restore
+
+      expect(card).not_to be_consumed
+      expect(card.special_used).to eql(false)
+      expect(card.force).to eql(0)
+    end
   end
 end
