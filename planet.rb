@@ -1,10 +1,18 @@
 # frozen_string_literal: true
+
+require "dry-initializer"
+require "dry-types"
 require_relative "factionable"
+require_relative "types"
 
 class Planet
   include Factionable
+  extend Dry::Initializer
 
-  attr_reader :faction, :name
+  option :faction, Types::Symbol
+  option :name, Types::String, default: proc { "A planet" }
+  option :power, Types::Integer, default: proc { 8 }
+
   attr_accessor :power
 
   def initialize(faction:, name: "A planet", power: 8)
