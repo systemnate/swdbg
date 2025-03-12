@@ -96,21 +96,96 @@ RSpec.describe Game do
   end
 
   describe "#buy" do
+    let(:game) { Game.new }
+    let(:card) { Card.new(cost: 1, resources: 1, faction: :empire) }
+
     it "allows the player to buy something from the galaxy row" do
-      deck = Deck.new
-      cards = []
-      20.times { cards << Card.new(cost: 1, resources: 1, faction: :empire) }
-      allow(deck).to receive(:cards).and_return(cards)
-
-      game = Game.new(deck: deck)
-      game.start_hand
-      game.player.consume_all
-
-      initial_resources = game.player.resources
+      allow(game.galaxy_row).to receive(:[]).with(0).and_return(card)
+      allow(game.galaxy_row).to receive(:remove_card).with(0).and_return(card)
+      allow(game.galaxy_row).to receive(:refill)
+      game.player.resources = 5
 
       game.buy(0)
 
-      expect(game.player.resources).to eql(initial_resources - 1)
+      expect(game.player.resources).to eq(4)
+      expect(game.player.discard_pile.length).to eql(1)
+    end
+  end
+
+  describe "#attack_planet" do
+    let(:game) { Game.new }
+
+    it "reduces the power of the opponents current planet" do
+      game.start_hand
+      player = game.player
+      player.power = 4
+      planet = game.current_planet
+      planet.power = 8
+
+      game.attack_planet(4)
+
+      expect(player.power).to eql(0)
+      expect(planet.power).to eql(4)
+    end
+  end
+
+  describe "#current_planet" do
+    context "as an empire player" do
+      let(:game) { Game.new }
+      context "when all planets are alive" do
+        it "returns the rebel's first planet" do
+          rebel_planets = game.rebel_planets
+
+          rebel_planets.each { _1.power = 10 }
+
+          expect(game.current_planet).to eql(rebel_planets.first)
+        end
+      end
+
+      context "when first planet is defeated" do
+        it "returns the rebel's second planet" do
+          p1, p2, p3 = game.rebel_planets
+
+          p1.power = 0
+          p2.power = 10
+          p3.power = 10
+
+          expect(game.current_planet).to eql(p2)
+        end
+      end
+    end
+
+    context "as a rebel player" do
+      let(:game) { Game.new }
+
+      before do
+        game.end_hand
+        game.start_hand # now rebel player
+      end
+
+      context "when all planets are alive" do
+        it "returns the empires's first planet" do
+          empire_planets = game.empire_planets
+
+          empire_planets.each do |planet|
+            planet.power = 10
+          end
+
+          expect(game.current_planet).to eql(empire_planets.first)
+        end
+      end
+
+      context "when first planet is defeated" do
+        it "returns the rebel's second planet" do
+          p1, p2, p3 = game.empire_planets
+
+          p1.power = 0
+          p2.power = 10
+          p3.power = 10
+
+          expect(game.current_planet).to eql(p2)
+        end
+      end
     end
   end
 end

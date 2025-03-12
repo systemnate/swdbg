@@ -74,6 +74,24 @@ class Game
     true
   end
 
+  def attack_planet(amount_to_attack)
+    if player.power >= amount_to_attack
+      player.power -= amount_to_attack
+      current_planet.power -= amount_to_attack
+
+      return true if current_planet.defeated?
+    end
+    false
+  end
+
+  def current_planet
+    if player.faction == :empire
+      rebel_planets.find(&:alive?)
+    else
+      empire_planets.find(&:alive?)
+    end
+  end
+
   private
 
   def can_buy?(card)
