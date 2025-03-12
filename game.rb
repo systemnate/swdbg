@@ -39,6 +39,7 @@ class Game
 
   def end_hand
     player.reset_consumption
+    player.return_to_discard_pile
 
     @current_player = @players.next
   end

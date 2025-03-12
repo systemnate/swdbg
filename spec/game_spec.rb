@@ -84,11 +84,10 @@ RSpec.describe Game do
       game.start_hand
       game.player.consume_all # TODO: prevent card with action from being consumed
 
-      expect(game.hand.all? { |c| c.consumed? }).to be_truthy
-
       game.end_hand
       game.start_hand
       game.end_hand
+      game.start_hand
 
       # rebel's turn again, they should be useable again
       expect(game.hand.all? { |c| c.consumed? }).to be_falsey

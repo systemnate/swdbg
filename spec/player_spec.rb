@@ -198,4 +198,19 @@ RSpec.describe Player do
       expect(player.discard_pile.size).to eql(1)
     end
   end
+
+  describe "#return_to_discard_pile" do
+    let(:player) { Player.new(faction: :rebel) }
+
+    it "returns cards from the hand to the discard pile" do
+      player.start_hand
+
+      expect(player.hand.length).to eql(5)
+
+      player.return_to_discard_pile
+
+      expect(player.hand.length).to eql(0)
+      expect(player.discard_pile.length).to eql(5)
+    end
+  end
 end

@@ -92,6 +92,13 @@ class Player
     @discard_pile << card
   end
 
+  def return_to_discard_pile
+    hand.each do |card|
+      add_to_discard_pile(card)
+    end
+    @hand = []
+  end
+
   private
 
   def create_starting_deck
