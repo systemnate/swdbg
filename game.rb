@@ -76,6 +76,17 @@ class Game
     true
   end
 
+  def buy_outer_rim_pilot
+    return false if outer_rim_pilots.empty?
+    return false unless can_buy?(outer_rim_pilots.first)
+
+    card = outer_rim_pilots.pop
+    player.resources -= card.cost
+    player.add_to_discard_pile(card)
+
+    true
+  end
+
   def attack_planet(amount_to_attack)
     if player.power >= amount_to_attack
       player.power -= amount_to_attack

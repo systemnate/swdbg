@@ -111,6 +111,19 @@ RSpec.describe Game do
     end
   end
 
+  describe "#buy_outer_rim_pilot" do
+    let(:game) { Game.new }
+
+    it "allows you to buy an outer rim pilot" do
+      player = game.player
+      player.resources = 2
+      game.buy_outer_rim_pilot
+
+      expect(player.discard_pile.size).to eql(1)
+      expect(player.resources).to eql(0)
+    end
+  end
+
   describe "#attack_planet" do
     let(:game) { Game.new }
 
