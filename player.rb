@@ -14,13 +14,14 @@ class Player
 
   option :faction, Types::PlayerFactionType
 
-  attr_reader :deck, :hand, :discard_pile
+  attr_reader :deck, :hand, :discard_pile, :exile_pile
   attr_accessor :power, :force, :resources
 
   def initialize(*args, **kwargs, &block)
     super(*args, **kwargs)
     @faction = faction
     @discard_pile = []
+    @exile_pile = []
     @deck = create_starting_deck
     @hand = []
     @power = 0
@@ -78,6 +79,12 @@ class Player
       power:,
       resources:
     }
+  end
+
+  def exile_cards
+    cards = hand.select(&:exiled).to_a
+    hand.reject!(&:exiled)
+    exile_pile.push(*cards)
   end
 
   def inspect

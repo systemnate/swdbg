@@ -39,6 +39,7 @@ class Game
   end
 
   def end_hand
+    player.exile_cards
     player.reset_consumption
     player.return_to_discard_pile
 

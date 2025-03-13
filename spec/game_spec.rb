@@ -92,6 +92,20 @@ RSpec.describe Game do
       # rebel's turn again, they should be useable again
       expect(game.hand.all? { |c| c.consumed? }).to be_falsey
     end
+
+    it "places all exiled cards in the exile pile" do
+      # start game, add outer rim pilot
+      game = Game.new
+      game.start_hand
+      player = game.player
+      card = Card.outer_rim_pilot
+      player.hand << card
+
+      card.special(:exile)
+      game.end_hand
+
+      expect(player.exile_pile).to include(card)
+    end
   end
 
   describe "#buy" do

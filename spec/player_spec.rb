@@ -225,4 +225,27 @@ RSpec.describe Player do
       expect(player.discard_pile.length).to eql(5)
     end
   end
+
+  describe "#exile_pile" do
+    let(:player) { Player.new(faction: :rebel) }
+
+    it "starts off as empty" do
+      expect(player.exile_pile).to be_empty
+    end
+  end
+
+  describe "#exile_cards" do
+    let(:player) { Player.new(faction: :rebel) }
+
+    it "moves cards marked as exile to the exile pile" do
+      card = Card.outer_rim_pilot
+      player.hand << card
+
+      card.special(:exile)
+
+      player.exile_cards
+
+      expect(player.exile_pile).to include(card)
+    end
+  end
 end
