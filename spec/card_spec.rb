@@ -155,6 +155,16 @@ RSpec.describe Card do
     end
   end
 
+  describe "#exile!" do
+    it "marks the card as exiled" do
+      card = Card.new(faction: :empire)
+
+      card.exile!
+
+      expect(card).to be_exiled
+    end
+  end
+
   describe "inquisitor" do
     it "starts with no powers" do
       card = Card.inquisitor

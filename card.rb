@@ -17,12 +17,21 @@ class Card
   option :consumed, Types::Bool, default: proc { false }
   option :special_block, Types::Callable.optional, default: proc { nil }
 
-  attr_accessor :power, :force, :resources, :special_used, :reward
+  attr_accessor :power, :force, :resources, :special_used, :reward, :exiled
 
   def initialize(*args, **kwargs, &block)
     super(*args, **kwargs)
     @special_block = block if block
     @special_used = false
+    @exiled = false
+  end
+
+  def exile!
+    @exiled = true
+  end
+
+  def exiled?
+    @exiled == true
   end
 
   def self.luke
@@ -64,7 +73,18 @@ class Card
       faction: :rebel,
       power: 4,
       force: 0,
-      resources: 3
+      resources: 3,
+      cost: 6
+    )
+  end
+
+  def self.boba_fett
+    new(
+      name: "Boba Fett",
+      faction: :empire,
+      power: 5,
+      force: 0,
+      resources: 0
     )
   end
 
@@ -85,7 +105,13 @@ class Card
   end
 
   def self.outer_rim_pilot
-    new(faction: :neutral, name: "Outer Rim Pilot", resources: 2)
+    new(faction: :neutral, name: "Outer Rim Pilot", resources: 2) do |c, powerup|
+      case powerup
+      when :exile
+        c.force += 1
+        c.exile!
+      end
+    end
   end
 
   def self.temple_guardian
