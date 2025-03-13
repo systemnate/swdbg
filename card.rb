@@ -151,6 +151,10 @@ class Card
     @consumed
   end
 
+  def special_used?
+    !@special_block.nil? && !@special_used
+  end
+
   def restore
     @consumed = false
     # won't work for other special abilities

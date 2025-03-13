@@ -53,6 +53,7 @@ class Player
 
   def consume(index)
     return if hand[index].consumed?
+    return if hand[index].special_used?
 
     @power += hand[index].power
     @force += hand[index].force
@@ -62,14 +63,8 @@ class Player
   end
 
   def consume_all
-    hand.each do |card|
-      next if card.consumed?
-
-      @power += card.power
-      @force += card.force
-      @resources += card.resources
-
-      card.consume
+    hand.each.with_index do |_card, index|
+      consume(index)
     end
   end
 

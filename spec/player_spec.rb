@@ -120,6 +120,18 @@ RSpec.describe Player do
       player.consume(0)
       expect(player.resources).to eql(1)
     end
+
+    it "doesn't consume a card if the special hasn't been used" do
+      card = Card.temple_guardian # card that has special
+      hand = [
+        card
+      ]
+
+      allow(player).to receive(:hand).and_return(hand)
+
+      player.consume(0)
+      expect(card).not_to be_consumed
+    end
   end
 
   describe "#consume_all" do

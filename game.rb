@@ -35,6 +35,7 @@ class Game
 
   def start_hand
     player.start_hand
+    player
   end
 
   def end_hand
@@ -91,6 +92,11 @@ class Game
     else
       empire_planets.find(&:alive?)
     end
+  end
+
+  def consume_all
+    player.consume_all
+    player
   end
 
   private
