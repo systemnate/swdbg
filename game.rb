@@ -91,6 +91,23 @@ class Game
     true
   end
 
+  def attack_galaxy_row(index)
+    card_to_attack = galaxy_row[index]
+    return false unless valid_faction?(card_to_attack)
+    return false if player.power < card_to_attack.target_value
+
+    card = galaxy_row.remove_card(index)
+    player.discard_pile << card
+    player.power -= card.target_value
+
+    player.power += card.reward.fetch(:power, 0)
+    player.resources += card.reward.fetch(:resources, 0)
+    player.force += card.reward.fetch(:force, 0)
+    galaxy_row.refill
+
+    true
+  end
+
   def attack_planet(amount_to_attack)
     return false if player.power < amount_to_attack || planet_destroyed
 
@@ -128,5 +145,10 @@ class Game
     @galaxy_row = GalaxyRow.new
     @galaxy_row.refill
     @galaxy_row
+  end
+
+  def valid_faction?(card)
+    (card.faction == :rebel && player.faction == :empire) ||
+      (card.faction == :empire && player.faction == :rebel)
   end
 end

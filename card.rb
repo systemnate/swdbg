@@ -16,6 +16,7 @@ class Card
   option :reward, Types::Hash, default: proc { {} }
   option :consumed, Types::Bool, default: proc { false }
   option :special_block, Types::Callable.optional, default: proc { nil }
+  option :target_value, Types::Integer, default: proc { cost }
 
   attr_accessor :power, :force, :resources, :special_used, :reward, :exiled
 
@@ -74,7 +75,8 @@ class Card
       power: 4,
       force: 0,
       resources: 3,
-      cost: 6
+      cost: 5,
+      reward: { resources: 4, force: 2 }
     )
   end
 

@@ -244,4 +244,25 @@ RSpec.describe Game do
       expect(game.attack_planet(2)).to eql(false)
     end
   end
+
+  describe "#attack_galaxy_row" do
+    it "allows a user to attack an enemy card in the galaxy row" do
+      card = Card.han_solo
+      deck_cards = [card]
+      deck = double(Deck, cards: deck_cards)
+      allow(deck).to receive(:draw).and_return(card)
+      allow(deck).to receive(:shuffle!)
+      game = Game.new(deck: deck)
+
+      player = game.player
+      game.start_hand
+      player.power = 5 # just enough
+
+      success = game.attack_galaxy_row(0)
+      expect(success).to eql(true)
+      expect(player.resources).to eql(4) # reward
+      expect(player.force).to eql(2) # reward
+      expect(game.galaxy_row.size).to eql(6)
+    end
+  end
 end
