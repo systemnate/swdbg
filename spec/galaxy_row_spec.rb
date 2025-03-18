@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "spec_helper"
-require_relative "../galaxy_row"
-require_relative "../deck"
-require_relative "../card"
+require "rails_helper"
 
 RSpec.describe GalaxyRow do
   let(:deck) { Deck.new }

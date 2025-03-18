@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "spec_helper"
-require_relative "../card"
-require_relative "../deck"
-require_relative "../game"
+require "rails_helper"
 
 RSpec.describe Game do
   let(:game) { Game.new }

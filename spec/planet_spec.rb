@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "spec_helper"
-require_relative "../planet"
+require "rails_helper"
 
 RSpec.describe Planet do
   it "lets you create a planet with a faction, name, and power" do

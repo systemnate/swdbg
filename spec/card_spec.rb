@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-#
-require "debug"
-require_relative "spec_helper"
-require_relative "../card"
+
+require "rails_helper"
 
 RSpec.describe Card do
   let(:name) { "A Card" }

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "spec_helper"
-require "debug"
-require_relative "../player"
+require "rails_helper"
 
 RSpec.describe Player do
   describe "rebel player" do
