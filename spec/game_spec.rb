@@ -214,4 +214,19 @@ RSpec.describe Game do
       end
     end
   end
+
+  describe "destroying a planet" do
+    let(:game) { Game.new }
+
+    it "only allows a user to destroy one planet per turn" do
+      player = game.player
+      game.start_hand
+
+      player.power = 10
+
+      game.attack_planet(8)
+
+      expect(game.attack_planet(2)).to eql(false)
+    end
+  end
 end

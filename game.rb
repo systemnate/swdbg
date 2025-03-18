@@ -7,7 +7,7 @@ require_relative "planet"
 require_relative "galaxy_row"
 
 class Game
-  attr_reader :deck, :galaxy_row, :player
+  attr_reader :deck, :galaxy_row, :player, :planet_destroyed
   attr_accessor :players, :outer_rim_pilots
 
   def initialize(deck: Deck.new)
@@ -19,6 +19,7 @@ class Game
     @deck.shuffle!
     @galaxy_row = GalaxyRow.new(@deck)
     @current_player = @players.next
+    @planet_destroyed = false
   end
 
   def player
@@ -34,6 +35,7 @@ class Game
   end
 
   def start_hand
+    @planet_destroyed = false
     player.start_hand
     player
   end
@@ -89,13 +91,16 @@ class Game
   end
 
   def attack_planet(amount_to_attack)
-    if player.power >= amount_to_attack
-      player.power -= amount_to_attack
-      current_planet.power -= amount_to_attack
+    return false if player.power < amount_to_attack || planet_destroyed
 
-      return true
-    end
-    false
+    planet = current_planet
+
+    player.power -= amount_to_attack
+    planet.power -= amount_to_attack
+
+    @planet_destroyed = true if planet.defeated?
+
+    true
   end
 
   def current_planet
