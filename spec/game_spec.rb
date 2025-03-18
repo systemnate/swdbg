@@ -106,6 +106,21 @@ RSpec.describe Game do
 
       expect(player.exile_pile).to include(card)
     end
+
+    it "resets players abilities" do
+      game = Game.new
+      game.start_hand
+      player = game.player
+      player.force = 2
+      player.resources = 12
+      player.power = 10
+
+      game.end_hand
+
+      expect(player.force).to eql(0)
+      expect(player.resources).to eql(0)
+      expect(player.power).to eql(0)
+    end
   end
 
   describe "#buy" do

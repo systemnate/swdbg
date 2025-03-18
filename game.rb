@@ -44,6 +44,7 @@ class Game
     player.exile_cards
     player.reset_consumption
     player.return_to_discard_pile
+    player.forfeit_unused_abilities
 
     @current_player = @players.next
   end

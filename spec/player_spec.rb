@@ -248,4 +248,20 @@ RSpec.describe Player do
       expect(player.exile_pile).to include(card)
     end
   end
+
+  describe "#forfeit_unused_abilities" do
+    let(:player) { Player.new(faction: :rebel) }
+
+    it "sets abilities to 0" do
+      player.force = 2
+      player.resources = 2
+      player.power = 2
+
+      player.forfeit_unused_abilities
+
+      expect(player.force).to eql(0)
+      expect(player.resources).to eql(0)
+      expect(player.power).to eql(0)
+    end
+  end
 end

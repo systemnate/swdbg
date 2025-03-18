@@ -109,6 +109,12 @@ class Player
     @hand = []
   end
 
+  def forfeit_unused_abilities
+    @force = 0
+    @resources = 0
+    @power = 0
+  end
+
   private
 
   def create_starting_deck
