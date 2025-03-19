@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-
-console.log('THIS IS THE CUSTOM APP COMPONENT WITH API FETCH!!');
+import React, { useState, useEffect } from "react"
+import "./App.css"
 
 function App() {
   const [stuff, setStuff] = useState([])
@@ -19,11 +17,9 @@ function App() {
         }
 
         const data = await response.json()
-        console.log("data", data)
         setStuff(data)
         setLoading(false)
       } catch (error) {
-        console.error('Error fetching tests:', error)
         setError('Failed to load tests. Please try again later.')
         setLoading(false)
       }
@@ -35,7 +31,6 @@ function App() {
   if (loading) return <div>Loading tests...</div>
   if (error) return <div>Error: {error}</div>
 
-    console.log("stuff", stuff)
     return (
       <div className="app">
       <h1>Data from Rails API</h1>
