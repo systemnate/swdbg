@@ -13,12 +13,10 @@ This is highly subject to change, but you can interact with the game like this.
 
 ```
 $ bundle install
-$ irb
+$ bundle exec rails c
 ```
 
 ```Ruby
-load "game.rb"
-
 game = Game.new
 game.start_hand
 game.player # view player with stats and hand
@@ -31,6 +29,7 @@ game.buy(2)
 game.current_planet # opponent's planet
 game.attack_planet(2) # succeeds if player power <= amount
 game.current_planet # planets power has been reduced
+# you can also attack the galaxy row: game.attack_galaxy_row(0)
 game.end_hand # end hand
 
 game.start_hand
