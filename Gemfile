@@ -50,3 +50,5 @@ end
 gem "dry-initializer"
 gem "dry-types"
 gem "awesome_print"
+gem "rack-cors"
+gem "vite_rails"

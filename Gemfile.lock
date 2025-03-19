@@ -94,6 +94,7 @@ GEM
     diff-lcs (1.6.0)
     dotenv (3.1.7)
     drb (2.2.1)
+    dry-cli (1.2.0)
     dry-core (1.1.0)
       concurrent-ruby (~> 1.0)
       logger
@@ -156,6 +157,7 @@ GEM
     mini_portile2 (2.8.8)
     minitest (5.25.5)
     msgpack (1.8.0)
+    mutex_m (0.3.0)
     net-imap (0.5.6)
       date
       net-protocol
@@ -196,6 +198,10 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.12)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
+    rack-proxy (0.7.7)
+      rack
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -327,6 +333,15 @@ GEM
     unicode-emoji (4.0.4)
     uri (1.0.3)
     useragent (0.16.11)
+    vite_rails (3.0.19)
+      railties (>= 5.1, < 9)
+      vite_ruby (~> 3.0, >= 3.2.2)
+    vite_ruby (3.9.1)
+      dry-cli (>= 0.7, < 2)
+      logger (~> 1.6)
+      mutex_m
+      rack-proxy (~> 0.6, >= 0.6.1)
+      zeitwerk (~> 2.2)
     websocket-driver (0.7.7)
       base64
       websocket-extensions (>= 0.1.0)
@@ -348,6 +363,7 @@ DEPENDENCIES
   dry-types
   kamal
   puma (>= 5.0)
+  rack-cors
   rails (~> 8.0.2)
   rspec-rails
   rubocop-rails-omakase
@@ -357,6 +373,7 @@ DEPENDENCIES
   sqlite3 (>= 2.1)
   thruster
   tzinfo-data
+  vite_rails
 
 BUNDLED WITH
    2.5.16
