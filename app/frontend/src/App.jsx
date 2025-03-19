@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+console.log('THIS IS THE CUSTOM APP COMPONENT WITH API FETCH!!');
+
 function App() {
   const [stuff, setStuff] = useState([])
   const [loading, setLoading] = useState(true)

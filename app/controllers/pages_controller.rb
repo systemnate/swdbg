@@ -1,5 +1,5 @@
-class PagesController < ApplicationController
+class PagesController < ActionController::Base
   def index
-    render file: Rails.root.join("public", "index.html")
+    render :index
   end
 end

@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "vite": "^6.2.2",
     "vite-plugin-ruby": "^5.1.1"
   }
